@@ -23,7 +23,7 @@ export default function App(rowIndex, colIndex) {
         { square: { row: rowIndex, col: colIndex }, player: currentPlayer },
         ...prevTurns,
       ];
-      
+
       return updatedTurns;
     });
   }
@@ -45,7 +45,7 @@ export default function App(rowIndex, colIndex) {
         </ol>
         <GameBoard onSelectSquare={handleSelectSquare} turns={gameTurns} />
       </div>
-      <Log />
+      <Log turns={gameTurns}/>
     </main>
   );
 }

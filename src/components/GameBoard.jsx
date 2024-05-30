@@ -1,20 +1,6 @@
-const initialGameBoard = [
-  [null, null, null],
-  [null, null, null],
-  [null, null, null],
-];
 
-export default function GameBoard({ onSelectSquare, turns }) {
-  // Derived state: A state or variable created/updated based on some state which in this case is turns
-  let gameBoard = initialGameBoard;
-  // if the turns is an empty array/object this loop wont run
-  for (const turn of turns) {
-    const { square, player } = turn;
-    const { row, col } = square;
+export default function GameBoard({ onSelectSquare, board }) {
 
-    gameBoard[row][col] = player;
-  }
-  
   // const [gameBoard, setGameBoard] = useState(initialGameBoard);
   // function handleSelectSquare(rowIndex, colIndex) {
   //   setGameBoard((prevGameBoard) => {
@@ -36,7 +22,7 @@ export default function GameBoard({ onSelectSquare, turns }) {
   // }
   return (
     <ol id="game-board">
-      {gameBoard.map((row, rowIndex) => (
+      {board.map((row, rowIndex) => (
         <li key={rowIndex}>
           <ol>
             {row.map((playerSymbol, colIndex) => (

@@ -3,6 +3,7 @@ import { useState } from "react";
 import Player from "./components/Player";
 import GameBoard from "./components/GameBoard";
 import Log from "./components/Log";
+import GameOver from "./components/GameOver";
 import { WINNING_COMBINATIONS } from "./components/winning-combination";
 
 const initialGameBoard = [
@@ -27,7 +28,7 @@ export default function App(rowIndex, colIndex) {
   const activePlayer = deriveActivePlayer(gameTurns);
 
   // Derived state: A state or variable created/updated based on some state which in this case is turns
-  let gameBoard = initialGameBoard;
+  let gameBoard = [...initialGameBoard.map(array => [...array])];
   // if the turns is an empty array/object this loop wont run
   for (const turn of gameTurns) {
     const { square, player } = turn;
@@ -53,6 +54,8 @@ export default function App(rowIndex, colIndex) {
     }
   }
 
+  const hasDraw = gameTurns.length === 9 && !winner;
+
   function handleSelectSquare(rowIndex, colIndex) {
     // setActivePlayer((curActivePlayer) => (curActivePlayer === "X" ? "O" : "X"));
     setGameTurns((prevTurns) => {
@@ -66,6 +69,10 @@ export default function App(rowIndex, colIndex) {
 
       return updatedTurns;
     });
+  }
+
+  function handleRestart(){
+    setGameTurns([]);
   }
 
   return (
@@ -83,7 +90,7 @@ export default function App(rowIndex, colIndex) {
             isActive={activePlayer === "O"}
           />
         </ol>
-        {winner && <p> You won, {winner}!</p>}
+        {(winner || hasDraw) && <GameOver winner={winner} onRestart={handleRestart} />}
         <GameBoard onSelectSquare={handleSelectSquare} board={gameBoard} />
       </div>
       <Log turns={gameTurns} />
